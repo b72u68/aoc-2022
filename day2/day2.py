@@ -1,11 +1,11 @@
 import argparse
 import os
-import sys
 
 
 parser = argparse.ArgumentParser("aoc")
 parser.add_argument('-t', '--test', help='run program using test data', action='store_true')
 args = parser.parse_args()
+
 
 # get data from file
 def get_data(filename):
