@@ -1,4 +1,4 @@
-# Advent of Code 2021
+# Advent of Code 2022
 
 ## Advent of Code
 
@@ -11,12 +11,11 @@ Learn more about Advent of Code in this [link](https://adventofcode.com/).
 
 ## About
 
-This github repo contains my solution for Advent of Code 2021 problems written in
-Python (will try to solve these problems in other languages (if have time)).
+This Github repo contains my solution for Advent of Code 2022 problems written in
+Python (will try to solve these problems in other languages).
 
-The template for solution can be found in `template.py`. Input data and test data
-will be named `data.txt` and `test.txt` (might give the program error if named
-differently).
+The template for solution can be found in `template` folder. Input data and test
+data are `data.txt` and `test.txt` (will give the program error if named differently).
 
 ## Progress
 
