@@ -5,10 +5,11 @@ import sys
 # get data from file
 def get_data(filename):
     file_dir = os.path.join(os.getcwd(), filename)
-    f = open(file_dir)
+    with open(file_dir, "r") as f:
+        raw_data = [line.strip() for line in f.readlines()]
 
     # process data here
-    data = f.readlines()
+    data = raw_data
 
     return data
 

@@ -9,6 +9,7 @@ def get_data(filename):
 
     # process data here
     raw_data = f.readlines()
+    f.close()
 
     return [x.strip() for x in raw_data]
 
