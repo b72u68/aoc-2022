@@ -26,8 +26,8 @@ data are `data.txt` and `test.txt` (will give the program error if named differe
 | Day 3  | :heavy_check_mark: | :heavy_check_mark: |
 | Day 4  | :heavy_check_mark: | :heavy_check_mark: |
 | Day 5  | :heavy_check_mark: | :heavy_check_mark: |
-| Day 6  |                    |                    |
-| Day 7  |                    |                    |
+| Day 6  | :heavy_check_mark: | :heavy_check_mark: |
+| Day 7  | :heavy_check_mark: | :heavy_check_mark: |
 | Day 8  |                    |                    |
 | Day 9  |                    |                    |
 | Day 10 |                    |                    |
