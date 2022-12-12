@@ -20,9 +20,7 @@ def get_data(filename):
         curstack = 1
         ptr = 0
         while ptr < len(line) and ptr + 3 < len(line):
-            if line[ptr+1] == " ":
-                pass
-            elif line[ptr+1].isnumeric():
+            if line[ptr+1] == " " or line[ptr+1].isnumeric():
                 pass
             else:
                 stacks[curstack] = [line[ptr+1]] + stacks[curstack]
