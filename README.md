@@ -29,11 +29,11 @@ data are `data.txt` and `test.txt` (will give the program error if named differe
 | Day 6  | :heavy_check_mark: | :heavy_check_mark: |
 | Day 7  | :heavy_check_mark: | :heavy_check_mark: |
 | Day 8  | :heavy_check_mark: | :heavy_check_mark: |
-| Day 9  |                    |                    |
+| Day 9  | :heavy_check_mark: | :heavy_check_mark: |
 | Day 10 | :heavy_check_mark: | :heavy_check_mark: |
 | Day 11 | :heavy_check_mark: | :heavy_check_mark: |
-| Day 12 |                    |                    |
-| Day 13 |                    |                    |
+| Day 12 | :heavy_check_mark: | :heavy_check_mark: |
+| Day 13 | :heavy_check_mark: | :heavy_check_mark: |
 | Day 14 |                    |                    |
 | Day 15 |                    |                    |
 | Day 16 |                    |                    |
