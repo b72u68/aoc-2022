@@ -73,7 +73,7 @@ def part2(data):
         packets.extend(data[i])
     packets.append([[2]])
     packets.append([[6]])
-    sorted_packets = sort(packets)
+    sort(packets)
     return (packets.index([[2]]) + 1) * (packets.index([[6]]) + 1)
 
 
