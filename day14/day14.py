@@ -13,65 +13,66 @@ def get_data(filename):
     abyss = 0
     walls = set()
     for line in raw_data:
-        x = [list(map(int, p.split(","))) for p in line.strip().split(" -> ")]
+        x = [list(map(int, p.split(","))) for p in line.split(" -> ")]
         for (x1, y1), (x2, y2) in zip(x, x[1:]):
-            x1, x2 = sorted([x1, x2])
-            y1, y2 = sorted([y1, y2])
-            for x in range(x1, x2 + 1):
-                for y in range(y1, y2 + 1):
-                    walls.add(x + y * 1j)
+            for x in range(min(x1, x2), max(x1, x2)+1):
+                for y in range(min(y1, y2), max(y1, y2)+1):
+                    walls.add((x, y))
                     abyss = max(abyss, y + 1)
     return (walls, abyss)
 
 
 # solution for part 1
-def pprint(map):
-    print("\n".join(["".join(line) for line in map]))
-
 def part1(data):
     walls, abyss = copy.deepcopy(data)
-    t = 0
+    count = 0
     while True:
-        s = 500
+        x = 500
+        y = 0
         while True:
-            if s.imag >= abyss:
-                return t
-            if s + 1j not in walls:
-                s += 1j
+            if y >= abyss:
+                return count
+            if (x, y + 1) not in walls:
+                y += 1
                 continue
-            if s + 1j - 1 not in walls:
-                s += 1j - 1
+            if (x-1, y+1) not in walls:
+                x -= 1
+                y += 1
                 continue
-            if s + 1j + 1 not in walls:
-                s += 1j + 1
+            if (x+1, y+1) not in walls:
+                x += 1
+                y += 1
                 continue
-            walls.add(s)
-            t += 1
+            walls.add((x, y))
+            count += 1
             break
 
 
 # solution for part 2
 def part2(data):
     walls, abyss = copy.deepcopy(data)
-    t = 0
-    while 500 not in walls:
-        s = 500
+    count = 0
+    while (500, 0) not in walls:
+        x = 500
+        y = 0
         while True:
-            if s.imag >= abyss:
+            if y >= abyss:
                 break
-            if s + 1j not in walls:
-                s += 1j
+            if (x, y + 1) not in walls:
+                y += 1
                 continue
-            if s + 1j - 1 not in walls:
-                s += 1j - 1
+            if (x-1, y+1) not in walls:
+                x -= 1
+                y += 1
                 continue
-            if s + 1j + 1 not in walls:
-                s += 1j + 1
+            if (x+1, y+1) not in walls:
+                x += 1
+                y += 1
                 continue
             break
-        walls.add(s)
-        t += 1
-    return t
+        walls.add((x, y))
+        count += 1
+    return count
 
 
 if __name__ == "__main__":
