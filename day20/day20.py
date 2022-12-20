@@ -20,7 +20,7 @@ def decrypt(msg, key, repeat=1):
                     new_idx = (j + curr[1]) % len(msg)
                     msg.insert(new_idx, (i, curr[1]))
                     break
-    for (i, (_, n)) in enumerate(msg):
+    for i, (_, n) in enumerate(msg):
         if n == 0:
             return msg[(i + 1000) % len(msg)][1] + msg[(i + 2000) % len(msg)][1] \
                     + msg[(i + 3000) % len(msg)][1]
