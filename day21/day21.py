@@ -50,10 +50,9 @@ def part1(data):
 
 
 # solution for part 2
-def solve(equation):
+def solve(equation, humn=0):
     ls, rs = equation.split("=")
     rs_val = int(eval(rs))
-    humn = 3441198822000
     while True:
         ls_val = eval(ls)
         print(humn, ls_val, rs_val)
@@ -85,7 +84,7 @@ def part2(data):
     data["root"] = (n, [operation[0], operation[1], "="])
     data["humn"] = (None, [])
     equation = build_equation(data)
-    return solve(equation)
+    return solve(equation, humn=3441198822500)
 
 
 if __name__ == "__main__":
