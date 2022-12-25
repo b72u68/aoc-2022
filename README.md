@@ -37,12 +37,12 @@ data are `data.txt` and `test.txt` (will give the program error if named differe
 | Day 14 | :heavy_check_mark: | :heavy_check_mark: |
 | Day 15 | :heavy_check_mark: | :heavy_check_mark: |
 | Day 16 | :heavy_check_mark: | :heavy_check_mark: |
-| Day 17 | :heavy_check_mark: |                    |
+| Day 17 | :heavy_check_mark: | :heavy_check_mark: |
 | Day 18 | :heavy_check_mark: | :heavy_check_mark: |
-| Day 19 |                    |                    |
+| Day 19 | :heavy_check_mark: | :heavy_check_mark: |
 | Day 20 | :heavy_check_mark: | :heavy_check_mark: |
 | Day 21 | :heavy_check_mark: | :heavy_check_mark: |
 | Day 22 | :heavy_check_mark: | :heavy_check_mark: |
 | Day 23 | :heavy_check_mark: | :heavy_check_mark: |
 | Day 24 | :heavy_check_mark: | :heavy_check_mark: |
-| Day 25 |                    |                    |
+| Day 25 | :heavy_check_mark: | :heavy_check_mark: |
