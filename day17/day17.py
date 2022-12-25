@@ -1,96 +1,105 @@
-import os
-import sys
-import copy
+from itertools import cycle
+from collections import defaultdict
+
+LEFT, RIGHT = "<", ">"
+jetdir = {LEFT: -1, RIGHT: 1}
+
+rocks = cycle((
+    ((0, 0), (1, 0), (2, 0), (3, 0)),
+    ((1, 0), (0, 1), (1, 1), (2, 1), (1, 2)),
+    ((0, 0), (1, 0), (2, 0), (2, 1), (2, 2)),
+    ((0, 0), (0, 1), (0, 2), (0, 3)),
+    ((0, 0), (1, 0), (0, 1), (1, 1)),
+))
+
+with open("data.txt") as f:
+    text = f.read().strip()
+    jets = cycle(text)
+
+def translatex(rock, dx):
+    for idx in range(len(rock)):
+        rock[idx][0] += dx
+
+def translatey(rock, dy):
+    for idx in range(len(rock)):
+        rock[idx][1] += dy
+
+def checkwalls(rock, dx):
+    for p in rock:
+        if not (0 <= p[0]+dx <= 6):
+            return False
+    return True
+
+def checkblock(rock, G, dx, dy):
+    for x, y in rock:
+        if (x+dx, y+dy) in G:
+            return False
+    return True
+
+def prune(G, top):
+    for p in [p for p in G if p[1] < top - 100]:
+        G.remove(p)
 
 
-# get data from file
-def get_data(filename):
-    file_dir = os.path.join(os.getcwd(), filename)
-    with open(file_dir, "r") as f:
-         return f.readlines()[0].strip()
+target = 1_000_000_000_000 - 1 # -1 for zero-based indexing
+G = set([(x, 0) for x in range(7)])
+top = 0
+idx = -1
+part1 = None
+tracker = defaultdict(list)
+initial = None
+divisor = None
+amount = None
+tgtidx = -1
 
+while True:
+    idx += 1
 
-rockshapes = [
-        [(1, 0), (2, 0), (3, 0), (4, 0)],           # -
-        [(3, 2), (2, 1), (3, 1), (4, 1), (3, 0)],   # +
-        [(2, 2), (2, 1), (2, 0), (3, 0), (4, 0)],   # L
-        [(4, 0), (4, 1), (4, 2), (4, 3)],           # |
-        [(3, 0), (4, 0), (3, 1), (4, 1)]            # square
-    ]
+    # rock falling procedure
+    rock = [[x+2, y+top+4] for x, y in next(rocks)]
+    while True:
+        dir = jetdir[next(jets)]
+        if checkwalls(rock, dir) and checkblock(rock, G, dir, 0):
+            translatex(rock, dir)
+        if not checkblock(rock, G, 0, -1):
+            break
+        translatey(rock, -1)
+    G.update([(x, y) for x, y in rock])
+    top = max([p[1] for p in rock] + [top])
+    prune(G, top)
 
+    # part 1
+    if idx == 2021:
+        print("Answer 1:", top)
 
-# solution for part 1
-def pprint(rocks):
-    maxheight = max(rocks, key=lambda c: c[1])[1]
-    map = [["." for _ in range(7)] for _ in range(maxheight+1)]
-    for x, y in rocks:
-        if y == -1:
-            continue
-        map[y][x] = "#"
-    print("\n".join(["".join(row) for row in map]))
+    # part 2 after finding divisor
+    if idx == tgtidx:
+        modulus = top - (initial + ((idx // divisor) - 1) * amount)
+        part2 = initial + ((target // divisor) - 1) * amount + modulus
+        print("Answer 2:", part2)
+        break
 
-def down_coords(shape):
-    return [(x, y - 1) for x, y in shape]
+    # skip tracking after finding divisor
+    if divisor is not None:
+        continue
 
-def right_coords(shape):
-    return [(x - 1, y) for x, y in shape]
+    # track differences for divisors and return the first one that is the same for 3 times in a row
+    if idx != 0:
+        tracker[idx] = [(top, top)]
 
-def left_coords(shape):
-    return [(x + 1, y) for x, y in shape]
-
-def simulation(jetstream, numrocks):
-    rocks = set([(x, -1) for x in range(7)])
-    count = 0
-    wi = 0
-    maxwidth = 6
-    while count < numrocks:
-        # relocate rocks
-        maxheight = max(rocks, key=lambda c: c[1])[1]
-        cur = [(x, y + maxheight + 4) for x, y in rockshapes[count % len(rockshapes)]]
-        while True:
-            x_min, x_max = min(cur)[0], max(cur)[0]
-            # wind
-            if jetstream[wi] == ">":
-                right = right_coords(cur)
-                if x_min > 0 and not set(right).intersection(rocks):
-                    cur = right
-            else:
-                left = left_coords(cur)
-                if x_max < maxwidth and not set(left).intersection(rocks):
-                    cur = left
-            wi = (wi + 1) % len(jetstream)
-            # fall
-            down = down_coords(cur)
-            if set(down).intersection(rocks):
-                for coord in cur:
-                    rocks.add(coord)
-                break
-            cur = down
-        count += 1
-    return max(rocks, key=lambda c: c[1])[1] + 1
-
-
-def part1(data):
-    return simulation(data, 2022)
-
-
-# solution for part 2
-def part2(data):
-    # return simulation(data, 1000000000000)
-    return
-
-
-if __name__ == "__main__":
-
-    filename = "data.txt"
-
-    if len(sys.argv) >= 2:
-        filename = sys.argv[1]
-
-    try:
-        data = get_data(filename)
-        print(part1(data))
-        print(part2(data))
-
-    except Exception as e:
-        print(e)
+    for i in [i for i in tracker if idx % i == 0]:
+        tracker[i].append((top, top-tracker[i][-1][0]))
+        if len(tracker[i]) > 3 and tracker[i][-1][1] == tracker[i][-2][1] == tracker[i][-3][1] == tracker[i][-4][1]:
+            # divisor is how many shapes are required to have a perfect cycle
+            divisor = i
+            # initial is the height for the first cycle since it's different
+            initial = tracker[i][0][0]
+            # amount is the height per normal cycle
+            amount = tracker[i][-1][1]
+            # run for modulus more cycles
+            tgtidx = idx + (target % divisor)
+            # delete tracker
+            tracker = None
+            break
+        elif len(tracker[i]) > 3 and tracker[i][-1][1] != tracker[i][-2][1]:
+            del tracker[i]
